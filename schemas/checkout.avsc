@@ -1,0 +1,11 @@
+{
+  "type": "record",
+  "name": "CheckoutEvent",
+  "fields": [
+    { "name": "timestamp", "type": "string" },
+    { "name": "event_name", "type": "string" },
+    { "name": "user_id", "type": "int" },
+    { "name": "cart_id", "type": "string" },
+    { "name": "payment_method", "type": "string" }
+  ]
+}

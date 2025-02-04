@@ -1,0 +1,12 @@
+{
+  "type": "record",
+  "name": "MovieCatalogEnriched",
+  "fields": [
+    { "name": "timestamp", "type": "string" },
+    { "name": "event_name", "type": "string" },
+    { "name": "movie_id", "type": "string" },
+    { "name": "title", "type": "string" },
+    { "name": "genre", "type": "string" },
+    { "name": "list_price", "type": "float" }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "type": "record",
+  "name": "SignOutEvent",
+  "fields": [
+    { "name": "timestamp", "type": "string" },
+    { "name": "event_name", "type": "string" },
+    { "name": "user_id", "type": "int" }
+  ]
+}

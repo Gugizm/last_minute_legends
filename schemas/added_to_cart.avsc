@@ -1,0 +1,11 @@
+{
+  "type": "record",
+  "name": "AddedToCartEvent",
+  "fields": [
+    { "name": "timestamp", "type": "string" },
+    { "name": "event_name", "type": "string" },
+    { "name": "user_id", "type": "int" },
+    { "name": "item_id", "type": "string" },
+    { "name": "cart_id", "type": "string" }
+  ]
+}
