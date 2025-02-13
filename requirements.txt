@@ -1,0 +1,5 @@
+pyspark
+confluent-kafka[avro]
+fastavro
+python-dotenv
+requests
