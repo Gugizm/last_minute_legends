@@ -7,17 +7,10 @@ services:
     working_dir: /app
     depends_on:
       - spark-master
-    environment:
-      - KAFKA_BOOTSTRAP_SERVERS=pkc-xmzwx.europe-central2.gcp.confluent.cloud:9092
-      - KAFKA_SECURITY_PROTOCOL=SASL_SSL
-      - KAFKA_SASL_MECHANISM=PLAIN
-      - KAFKA_SASL_USERNAME=MOU7KFCPA4ZIIZ6F
-      - KAFKA_SASL_PASSWORD=v+253VNJkDjJNuS4APVYvGLRnzROg/bt4UUnjKyvZJ2bNDjhBsm++FeMI72b1buz
-      - KAFKA_CLIENT_ID=ccloud-python-client-00816959-7fc0-4d75-98d8-88c7998cc97d
-      - SCHEMA_REGISTRY_URL=https://psrc-l7opw.europe-west3.gcp.confluent.cloud
-      - SCHEMA_REGISTRY_AUTH=KJU2MW5GQAZSE26P:TBBlvhNsY1/IUtGqv9DZfXBiqaodJGASy81a/6CIrYcu3UzGKp5PFmEsYeATl9Q3
+    env_file:
+      - .env
     command: >
-      sh -c "python SparkMovieProcessor.py && python UserActivitySimulator.py"
+      sh -c "python3 SparkMovieProcessor.py && python3 UserActivitySimulator.py && python3 KafkaSparkConsumer.py"
     networks:
       - kafka_network
 

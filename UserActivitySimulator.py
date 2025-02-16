@@ -31,7 +31,7 @@ class UserActivitySimulator:
     def load_movies(self):
         """Fetch movies from Spark DataFrame"""
         try:
-            df = self.spark.read.csv("movies.csv", header=True)
+            df = self.spark.read.text("movies.txt")
             return df.select("movie_id").rdd.flatMap(lambda x: x).collect()
         except Exception as e:
             logging.error(f"❌ Error loading movies: {e}")
