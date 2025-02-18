@@ -1,0 +1,52 @@
+[2025-02-17T15:17:51.611+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-02-17T15:17:51.624+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: kafka_streaming_process_pipeline.start_movie_kafka_producer manual__2025-02-17T15:17:37.918837+00:00 [queued]>
+[2025-02-17T15:17:51.632+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: kafka_streaming_process_pipeline.start_movie_kafka_producer manual__2025-02-17T15:17:37.918837+00:00 [queued]>
+[2025-02-17T15:17:51.633+0000] {taskinstance.py:2866} INFO - Starting attempt 1 of 1
+[2025-02-17T15:17:51.649+0000] {taskinstance.py:2889} INFO - Executing <Task(BashOperator): start_movie_kafka_producer> on 2025-02-17 15:17:37.918837+00:00
+[2025-02-17T15:17:51.655+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'kafka_streaming_process_pipeline', 'start_movie_kafka_producer', 'manual__2025-02-17T15:17:37.918837+00:00', '--job-id', '61', '--raw', '--subdir', 'DAGS_FOLDER/kafka_streaming_process.py', '--cfg-path', '/tmp/tmpukydamcm']
+[2025-02-17T15:17:51.657+0000] {standard_task_runner.py:105} INFO - Job 61: Subtask start_movie_kafka_producer
+[2025-02-17T15:17:51.658+0000] {logging_mixin.py:190} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70 DeprecationWarning: This process (pid=5176) is multi-threaded, use of fork() may lead to deadlocks in the child.
+[2025-02-17T15:17:51.658+0000] {standard_task_runner.py:72} INFO - Started process 5179 to run task
+[2025-02-17T15:17:51.690+0000] {task_command.py:467} INFO - Running <TaskInstance: kafka_streaming_process_pipeline.start_movie_kafka_producer manual__2025-02-17T15:17:37.918837+00:00 [running]> on host b6abba1bc830
+[2025-02-17T15:17:51.755+0000] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='kafka_streaming_process_pipeline' AIRFLOW_CTX_TASK_ID='start_movie_kafka_producer' AIRFLOW_CTX_EXECUTION_DATE='2025-02-17T15:17:37.918837+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-02-17T15:17:37.918837+00:00'
+[2025-02-17T15:17:51.756+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2025-02-17T15:17:51.770+0000] {subprocess.py:78} INFO - Tmp dir root location: /tmp
+[2025-02-17T15:17:51.771+0000] {subprocess.py:88} INFO - Running command: ['/usr/bin/bash', '-c', 'python3 /usr/local/app/kafka/MovieProducing.py']
+[2025-02-17T15:17:51.778+0000] {subprocess.py:99} INFO - Output:
+[2025-02-17T15:17:52.664+0000] {subprocess.py:106} INFO - /home/***/.local/lib/python3.12/site-packages/pyspark/bin/load-spark-env.sh: line 68: ps: command not found
+[2025-02-17T15:17:54.124+0000] {subprocess.py:106} INFO - Setting default log level to "WARN".
+[2025-02-17T15:17:54.125+0000] {subprocess.py:106} INFO - To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+[2025-02-17T15:17:54.268+0000] {subprocess.py:106} INFO - 25/02/17 15:17:54 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+[2025-02-17T15:17:56.447+0000] {subprocess.py:106} INFO - %6|1739805476.447|GETSUBSCRIPTIONS|ccloud-python-client-d5d51593-8a8e-4679-b89e-7349479019ff#producer-1| [thrd:main]: Telemetry client instance id changed from AAAAAAAAAAAAAAAAAAAAAA to GwvKB2pCRPuoD3uuv/XhCg
+[2025-02-17T15:18:00.708+0000] {subprocess.py:106} INFO - [Stage 2:>                                                          (0 + 1) / 1]                                                                                +--------+--------------------+-------------+----------+
+[2025-02-17T15:18:00.708+0000] {subprocess.py:106} INFO - |movie_id|               title|        genre|list_price|
+[2025-02-17T15:18:00.709+0000] {subprocess.py:106} INFO - +--------+--------------------+-------------+----------+
+[2025-02-17T15:18:00.709+0000] {subprocess.py:106} INFO - |       1|10-Movie Action P...|         NULL|     $8.99|
+[2025-02-17T15:18:00.709+0000] {subprocess.py:106} INFO - |       2|Maleficent (Theat...|       Action|      NULL|
+[2025-02-17T15:18:00.710+0000] {subprocess.py:106} INFO - |       3|8-Movie Action Pa...|         NULL|     $8.99|
+[2025-02-17T15:18:00.710+0000] {subprocess.py:106} INFO - |       4|Van Damme 5-Movie...|         NULL|    $69.98|
+[2025-02-17T15:18:00.711+0000] {subprocess.py:106} INFO - |       5|Act of Valor [Blu...|         NULL|    $19.99|
+[2025-02-17T15:18:00.711+0000] {subprocess.py:106} INFO - |       6|         Fan Fiction|       Action|      NULL|
+[2025-02-17T15:18:00.712+0000] {subprocess.py:106} INFO - |       7|Indiana Jones: Th...|         NULL|    $75.99|
+[2025-02-17T15:18:00.712+0000] {subprocess.py:106} INFO - |       8|8-movie Action & ...|         NULL|    $14.99|
+[2025-02-17T15:18:00.712+0000] {subprocess.py:106} INFO - |       9|8-Movie Action Pa...|         NULL|     $8.99|
+[2025-02-17T15:18:00.713+0000] {subprocess.py:106} INFO - |      10|10-Movie Action Pack|         NULL|    $14.99|
+[2025-02-17T15:18:00.713+0000] {subprocess.py:106} INFO - |      11|      The Peacemaker|       Action|      NULL|
+[2025-02-17T15:18:00.713+0000] {subprocess.py:106} INFO - |      12|4 Film Favorites:...|         NULL|    $17.94|
+[2025-02-17T15:18:00.713+0000] {subprocess.py:106} INFO - |      13|The Wiggles Magic...|         NULL|    $13.98|
+[2025-02-17T15:18:00.713+0000] {subprocess.py:106} INFO - |      14|10-Movie Family A...|         NULL|     $8.99|
+[2025-02-17T15:18:00.714+0000] {subprocess.py:106} INFO - |      15|Barney's Great Ad...|       Action|      NULL|
+[2025-02-17T15:18:00.714+0000] {subprocess.py:106} INFO - |      16|20-Movie Action C...|         NULL|    $17.99|
+[2025-02-17T15:18:00.714+0000] {subprocess.py:106} INFO - |      17|LEGO: DC Comics S...|         NULL|    $24.98|
+[2025-02-17T15:18:00.715+0000] {subprocess.py:106} INFO - |      18|10-Movie Family A...|         NULL|     $8.99|
+[2025-02-17T15:18:00.715+0000] {subprocess.py:106} INFO - |      19|The Adventures of...|Family Cinema|      NULL|
+[2025-02-17T15:18:00.716+0000] {subprocess.py:106} INFO - |      20|Guardians of the ...|         NULL|    $39.99|
+[2025-02-17T15:18:00.716+0000] {subprocess.py:106} INFO - +--------+--------------------+-------------+----------+
+[2025-02-17T15:18:00.716+0000] {subprocess.py:106} INFO - only showing top 20 rows
+[2025-02-17T15:18:00.716+0000] {subprocess.py:106} INFO - 
+[2025-02-17T15:18:01.122+0000] {subprocess.py:110} INFO - Command exited with return code 0
+[2025-02-17T15:18:01.142+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-02-17T15:18:01.143+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=kafka_streaming_process_pipeline, task_id=start_movie_kafka_producer, run_id=manual__2025-02-17T15:17:37.918837+00:00, execution_date=20250217T151737, start_date=20250217T151751, end_date=20250217T151801
+[2025-02-17T15:18:01.175+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-02-17T15:18:01.186+0000] {taskinstance.py:3895} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-02-17T15:18:01.188+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

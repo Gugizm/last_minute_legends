@@ -1,0 +1,52 @@
+[2025-02-17T15:16:59.736+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-02-17T15:16:59.748+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: kafka_streaming_process_pipeline.start_movie_kafka_producer manual__2025-02-17T15:16:46.021640+00:00 [queued]>
+[2025-02-17T15:16:59.755+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: kafka_streaming_process_pipeline.start_movie_kafka_producer manual__2025-02-17T15:16:46.021640+00:00 [queued]>
+[2025-02-17T15:16:59.755+0000] {taskinstance.py:2866} INFO - Starting attempt 1 of 1
+[2025-02-17T15:16:59.769+0000] {taskinstance.py:2889} INFO - Executing <Task(BashOperator): start_movie_kafka_producer> on 2025-02-17 15:16:46.021640+00:00
+[2025-02-17T15:16:59.775+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'kafka_streaming_process_pipeline', 'start_movie_kafka_producer', 'manual__2025-02-17T15:16:46.021640+00:00', '--job-id', '58', '--raw', '--subdir', 'DAGS_FOLDER/kafka_streaming_process.py', '--cfg-path', '/tmp/tmp2bgptyz3']
+[2025-02-17T15:16:59.777+0000] {standard_task_runner.py:105} INFO - Job 58: Subtask start_movie_kafka_producer
+[2025-02-17T15:16:59.778+0000] {logging_mixin.py:190} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70 DeprecationWarning: This process (pid=4425) is multi-threaded, use of fork() may lead to deadlocks in the child.
+[2025-02-17T15:16:59.779+0000] {standard_task_runner.py:72} INFO - Started process 4426 to run task
+[2025-02-17T15:16:59.810+0000] {task_command.py:467} INFO - Running <TaskInstance: kafka_streaming_process_pipeline.start_movie_kafka_producer manual__2025-02-17T15:16:46.021640+00:00 [running]> on host b6abba1bc830
+[2025-02-17T15:16:59.871+0000] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='kafka_streaming_process_pipeline' AIRFLOW_CTX_TASK_ID='start_movie_kafka_producer' AIRFLOW_CTX_EXECUTION_DATE='2025-02-17T15:16:46.021640+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-02-17T15:16:46.021640+00:00'
+[2025-02-17T15:16:59.872+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2025-02-17T15:16:59.887+0000] {subprocess.py:78} INFO - Tmp dir root location: /tmp
+[2025-02-17T15:16:59.888+0000] {subprocess.py:88} INFO - Running command: ['/usr/bin/bash', '-c', 'python3 /usr/local/app/kafka/MovieProducing.py']
+[2025-02-17T15:16:59.896+0000] {subprocess.py:99} INFO - Output:
+[2025-02-17T15:17:00.704+0000] {subprocess.py:106} INFO - /home/***/.local/lib/python3.12/site-packages/pyspark/bin/load-spark-env.sh: line 68: ps: command not found
+[2025-02-17T15:17:02.139+0000] {subprocess.py:106} INFO - Setting default log level to "WARN".
+[2025-02-17T15:17:02.140+0000] {subprocess.py:106} INFO - To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+[2025-02-17T15:17:02.297+0000] {subprocess.py:106} INFO - 25/02/17 15:17:02 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+[2025-02-17T15:17:04.457+0000] {subprocess.py:106} INFO - %6|1739805424.456|GETSUBSCRIPTIONS|ccloud-python-client-d5d51593-8a8e-4679-b89e-7349479019ff#producer-1| [thrd:main]: Telemetry client instance id changed from AAAAAAAAAAAAAAAAAAAAAA to tMhug28oRd+IzUKmqseOBw
+[2025-02-17T15:17:08.453+0000] {subprocess.py:106} INFO - [Stage 2:>                                                          (0 + 1) / 1]                                                                                +--------+
+[2025-02-17T15:17:08.453+0000] {subprocess.py:106} INFO - |movie_id|
+[2025-02-17T15:17:08.454+0000] {subprocess.py:106} INFO - +--------+
+[2025-02-17T15:17:08.454+0000] {subprocess.py:106} INFO - |       1|
+[2025-02-17T15:17:08.454+0000] {subprocess.py:106} INFO - |       2|
+[2025-02-17T15:17:08.455+0000] {subprocess.py:106} INFO - |       3|
+[2025-02-17T15:17:08.455+0000] {subprocess.py:106} INFO - |       4|
+[2025-02-17T15:17:08.456+0000] {subprocess.py:106} INFO - |       5|
+[2025-02-17T15:17:08.456+0000] {subprocess.py:106} INFO - |       6|
+[2025-02-17T15:17:08.456+0000] {subprocess.py:106} INFO - |       7|
+[2025-02-17T15:17:08.456+0000] {subprocess.py:106} INFO - |       8|
+[2025-02-17T15:17:08.458+0000] {subprocess.py:106} INFO - |       9|
+[2025-02-17T15:17:08.458+0000] {subprocess.py:106} INFO - |      10|
+[2025-02-17T15:17:08.459+0000] {subprocess.py:106} INFO - |      11|
+[2025-02-17T15:17:08.459+0000] {subprocess.py:106} INFO - |      12|
+[2025-02-17T15:17:08.460+0000] {subprocess.py:106} INFO - |      13|
+[2025-02-17T15:17:08.460+0000] {subprocess.py:106} INFO - |      14|
+[2025-02-17T15:17:08.460+0000] {subprocess.py:106} INFO - |      15|
+[2025-02-17T15:17:08.460+0000] {subprocess.py:106} INFO - |      16|
+[2025-02-17T15:17:08.460+0000] {subprocess.py:106} INFO - |      17|
+[2025-02-17T15:17:08.461+0000] {subprocess.py:106} INFO - |      18|
+[2025-02-17T15:17:08.461+0000] {subprocess.py:106} INFO - |      19|
+[2025-02-17T15:17:08.461+0000] {subprocess.py:106} INFO - |      20|
+[2025-02-17T15:17:08.461+0000] {subprocess.py:106} INFO - +--------+
+[2025-02-17T15:17:08.462+0000] {subprocess.py:106} INFO - only showing top 20 rows
+[2025-02-17T15:17:08.462+0000] {subprocess.py:106} INFO - 
+[2025-02-17T15:17:08.872+0000] {subprocess.py:110} INFO - Command exited with return code 0
+[2025-02-17T15:17:08.900+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-02-17T15:17:08.901+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=kafka_streaming_process_pipeline, task_id=start_movie_kafka_producer, run_id=manual__2025-02-17T15:16:46.021640+00:00, execution_date=20250217T151646, start_date=20250217T151659, end_date=20250217T151708
+[2025-02-17T15:17:08.953+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-02-17T15:17:08.964+0000] {taskinstance.py:3895} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-02-17T15:17:08.966+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

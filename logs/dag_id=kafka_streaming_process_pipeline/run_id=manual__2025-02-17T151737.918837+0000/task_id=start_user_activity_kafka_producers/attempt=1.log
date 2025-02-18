@@ -1,0 +1,37 @@
+[2025-02-17T15:17:51.611+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-02-17T15:17:51.624+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: kafka_streaming_process_pipeline.start_user_activity_kafka_producers manual__2025-02-17T15:17:37.918837+00:00 [queued]>
+[2025-02-17T15:17:51.632+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: kafka_streaming_process_pipeline.start_user_activity_kafka_producers manual__2025-02-17T15:17:37.918837+00:00 [queued]>
+[2025-02-17T15:17:51.635+0000] {taskinstance.py:2866} INFO - Starting attempt 1 of 1
+[2025-02-17T15:17:51.647+0000] {taskinstance.py:2889} INFO - Executing <Task(BashOperator): start_user_activity_kafka_producers> on 2025-02-17 15:17:37.918837+00:00
+[2025-02-17T15:17:51.653+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'kafka_streaming_process_pipeline', 'start_user_activity_kafka_producers', 'manual__2025-02-17T15:17:37.918837+00:00', '--job-id', '60', '--raw', '--subdir', 'DAGS_FOLDER/kafka_streaming_process.py', '--cfg-path', '/tmp/tmpnrztlfqf']
+[2025-02-17T15:17:51.655+0000] {standard_task_runner.py:105} INFO - Job 60: Subtask start_user_activity_kafka_producers
+[2025-02-17T15:17:51.655+0000] {logging_mixin.py:190} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70 DeprecationWarning: This process (pid=5177) is multi-threaded, use of fork() may lead to deadlocks in the child.
+[2025-02-17T15:17:51.656+0000] {standard_task_runner.py:72} INFO - Started process 5178 to run task
+[2025-02-17T15:17:51.690+0000] {task_command.py:467} INFO - Running <TaskInstance: kafka_streaming_process_pipeline.start_user_activity_kafka_producers manual__2025-02-17T15:17:37.918837+00:00 [running]> on host b6abba1bc830
+[2025-02-17T15:17:51.756+0000] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='kafka_streaming_process_pipeline' AIRFLOW_CTX_TASK_ID='start_user_activity_kafka_producers' AIRFLOW_CTX_EXECUTION_DATE='2025-02-17T15:17:37.918837+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-02-17T15:17:37.918837+00:00'
+[2025-02-17T15:17:51.757+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2025-02-17T15:17:51.770+0000] {subprocess.py:78} INFO - Tmp dir root location: /tmp
+[2025-02-17T15:17:51.771+0000] {subprocess.py:88} INFO - Running command: ['/usr/bin/bash', '-c', 'python3 /usr/local/app/kafka/UserActivitySimulator.py']
+[2025-02-17T15:17:51.778+0000] {subprocess.py:99} INFO - Output:
+[2025-02-17T15:17:52.653+0000] {subprocess.py:106} INFO - /home/***/.local/lib/python3.12/site-packages/pyspark/bin/load-spark-env.sh: line 68: ps: command not found
+[2025-02-17T15:17:54.151+0000] {subprocess.py:106} INFO - Setting default log level to "WARN".
+[2025-02-17T15:17:54.152+0000] {subprocess.py:106} INFO - To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+[2025-02-17T15:17:54.366+0000] {subprocess.py:106} INFO - 25/02/17 15:17:54 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+[2025-02-17T15:17:54.945+0000] {subprocess.py:106} INFO - 25/02/17 15:17:54 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+[2025-02-17T15:17:56.425+0000] {subprocess.py:106} INFO - %6|1739805476.425|GETSUBSCRIPTIONS|ccloud-python-client-d5d51593-8a8e-4679-b89e-7349479019ff#producer-1| [thrd:main]: Telemetry client instance id changed from AAAAAAAAAAAAAAAAAAAAAA to Tz5qng3pTMOJHzk0a1LuIg
+[2025-02-17T15:17:57.343+0000] {subprocess.py:106} INFO - ERROR:root:Sent Avro message to topic sign_out_topic: b'\x00\x00\x01\x86\xa442025-02-17T15:17:55.349887\x10sign_out\x0c496738'
+[2025-02-17T15:17:58.297+0000] {subprocess.py:106} INFO - ERROR:root:Sent Avro message to topic sign_out_topic: b'\x00\x00\x01\x86\xa442025-02-17T15:17:57.343565\x10sign_out\x0c496738'
+[2025-02-17T15:17:59.241+0000] {subprocess.py:106} INFO - ERROR:root:Sent Avro message to topic sign_out_topic: b'\x00\x00\x01\x86\xa442025-02-17T15:17:58.297521\x10sign_out\x0c496738'
+[2025-02-17T15:18:00.177+0000] {subprocess.py:106} INFO - ERROR:root:Sent Avro message to topic sign_in_topic: b'\x00\x00\x01\x86\xa342025-02-17T15:17:59.241260\x0esign_in\x0c496738'
+[2025-02-17T15:18:01.138+0000] {subprocess.py:106} INFO - ERROR:root:Sent Avro message to topic consumer_registration_topic: b'\x00\x00\x01\x86\xa242025-02-17T15:18:00.177241*consumer_registration\x0c218137.(user218137@yahoo.com\x00'
+[2025-02-17T15:18:02.607+0000] {subprocess.py:106} INFO - ERROR:root:Sent Avro message to topic consumer_registration_topic: b'\x00\x00\x01\x86\xa242025-02-17T15:18:01.138472*consumer_registration\x0c871001\xb4\x01,user871001@outlook.com\x06eng'
+[2025-02-17T15:18:03.546+0000] {subprocess.py:106} INFO - ERROR:root:Sent Avro message to topic consumer_registration_topic: b'\x00\x00\x01\x86\xa242025-02-17T15:18:02.607468*consumer_registration\x0c5599870(user559987@gmail.com\x06eng'
+[2025-02-17T15:18:04.612+0000] {subprocess.py:106} INFO - ERROR:root:Sent Avro message to topic checkout_to_cart_topic: b'\x00\x00\x01\x86\xa742025-02-17T15:18:03.546152 checkout_to_cart\x0c559987H0af4bfe7-30e8-40f3-8950-5aa9687ab62f\x08Cash'
+[2025-02-17T15:18:05.704+0000] {subprocess.py:106} INFO - ERROR:root:Sent Avro message to topic consumer_registration_topic: b'\x00\x00\x01\x86\xa242025-02-17T15:18:04.612324*consumer_registration\x0c752166T(user752166@yahoo.com\x06eng'
+[2025-02-17T15:18:06.677+0000] {subprocess.py:106} INFO - ERROR:root:Sent Avro message to topic checkout_to_cart_topic: b'\x00\x00\x01\x86\xa742025-02-17T15:18:05.704434 checkout_to_cart\x0c871001H39358684-2cf1-4608-854d-2f6478aaa129\x08Cash'
+[2025-02-17T15:18:07.639+0000] {subprocess.py:110} INFO - Command exited with return code 0
+[2025-02-17T15:18:07.656+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-02-17T15:18:07.657+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=kafka_streaming_process_pipeline, task_id=start_user_activity_kafka_producers, run_id=manual__2025-02-17T15:17:37.918837+00:00, execution_date=20250217T151737, start_date=20250217T151751, end_date=20250217T151807
+[2025-02-17T15:18:07.698+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-02-17T15:18:07.709+0000] {taskinstance.py:3895} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-02-17T15:18:07.711+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

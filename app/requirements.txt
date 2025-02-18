@@ -1,0 +1,8 @@
+confluent-kafka[avro]
+fastavro
+python-dotenv
+requests
+snowflake-connector-python>=3.0.0
+apache-airflow-providers-apache-spark
+snowflake-connector-python
+snowflake-sqlalchemy

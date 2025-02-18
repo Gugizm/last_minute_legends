@@ -1,6 +1,0 @@
-confluent-kafka[avro]
-fastavro
-python-dotenv
-requests
-pyspark>=3.2.1
-snowflake-connector-python>=3.0.0

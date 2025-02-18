@@ -1,0 +1,45 @@
+[2025-02-17T15:08:40.906+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-02-17T15:08:40.918+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: kafka_streaming_process_pipeline.start_user_activity_kafka_producers manual__2025-02-17T15:08:24.031654+00:00 [queued]>
+[2025-02-17T15:08:40.925+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: kafka_streaming_process_pipeline.start_user_activity_kafka_producers manual__2025-02-17T15:08:24.031654+00:00 [queued]>
+[2025-02-17T15:08:40.927+0000] {taskinstance.py:2866} INFO - Starting attempt 1 of 1
+[2025-02-17T15:08:40.939+0000] {taskinstance.py:2889} INFO - Executing <Task(BashOperator): start_user_activity_kafka_producers> on 2025-02-17 15:08:24.031654+00:00
+[2025-02-17T15:08:40.945+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'kafka_streaming_process_pipeline', 'start_user_activity_kafka_producers', 'manual__2025-02-17T15:08:24.031654+00:00', '--job-id', '48', '--raw', '--subdir', 'DAGS_FOLDER/kafka_streaming_process.py', '--cfg-path', '/tmp/tmp0ameof7o']
+[2025-02-17T15:08:40.947+0000] {standard_task_runner.py:105} INFO - Job 48: Subtask start_user_activity_kafka_producers
+[2025-02-17T15:08:40.947+0000] {logging_mixin.py:190} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70 DeprecationWarning: This process (pid=1989) is multi-threaded, use of fork() may lead to deadlocks in the child.
+[2025-02-17T15:08:40.947+0000] {standard_task_runner.py:72} INFO - Started process 1992 to run task
+[2025-02-17T15:08:40.979+0000] {task_command.py:467} INFO - Running <TaskInstance: kafka_streaming_process_pipeline.start_user_activity_kafka_producers manual__2025-02-17T15:08:24.031654+00:00 [running]> on host b6abba1bc830
+[2025-02-17T15:08:41.038+0000] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='kafka_streaming_process_pipeline' AIRFLOW_CTX_TASK_ID='start_user_activity_kafka_producers' AIRFLOW_CTX_EXECUTION_DATE='2025-02-17T15:08:24.031654+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-02-17T15:08:24.031654+00:00'
+[2025-02-17T15:08:41.039+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2025-02-17T15:08:41.051+0000] {subprocess.py:78} INFO - Tmp dir root location: /tmp
+[2025-02-17T15:08:41.052+0000] {subprocess.py:88} INFO - Running command: ['/usr/bin/bash', '-c', 'python3 /usr/local/app/kafka/UserActivitySimulator.py']
+[2025-02-17T15:08:41.059+0000] {subprocess.py:99} INFO - Output:
+[2025-02-17T15:08:41.975+0000] {subprocess.py:106} INFO - /home/***/.local/lib/python3.12/site-packages/pyspark/bin/load-spark-env.sh: line 68: ps: command not found
+[2025-02-17T15:08:43.666+0000] {subprocess.py:106} INFO - Setting default log level to "WARN".
+[2025-02-17T15:08:43.667+0000] {subprocess.py:106} INFO - To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+[2025-02-17T15:08:43.885+0000] {subprocess.py:106} INFO - 25/02/17 15:08:43 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+[2025-02-17T15:08:44.482+0000] {subprocess.py:106} INFO - 25/02/17 15:08:44 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+[2025-02-17T15:08:46.112+0000] {subprocess.py:106} INFO - %6|1739804926.112|GETSUBSCRIPTIONS|ccloud-python-client-d5d51593-8a8e-4679-b89e-7349479019ff#producer-1| [thrd:main]: Telemetry client instance id changed from AAAAAAAAAAAAAAAAAAAAAA to VTE26zq/Rl2JMIyLpwNPyQ
+[2025-02-17T15:08:46.942+0000] {subprocess.py:106} INFO - ERROR:root:Sent Avro message to topic sign_in_topic: b'\x00\x00\x01\x86\xa342025-02-17T15:08:44.961946\x0esign_in\x0c994147'
+[2025-02-17T15:08:47.935+0000] {subprocess.py:106} INFO - ERROR:root:Sent Avro message to topic consumer_registration_topic: b'\x00\x00\x01\x86\xa242025-02-17T15:08:46.942369*consumer_registration\x0c900909\x96\x01(user900909@gmail.com\x06eng'
+[2025-02-17T15:08:49.276+0000] {subprocess.py:106} INFO - ERROR:root:Sent Avro message to topic sign_out_topic: b'\x00\x00\x01\x86\xa442025-02-17T15:08:47.935315\x10sign_out\x0c900909'
+[2025-02-17T15:08:50.285+0000] {subprocess.py:106} INFO - ERROR:root:Sent Avro message to topic checkout_to_cart_topic: b'\x00\x00\x01\x86\xa742025-02-17T15:08:49.270606 checkout_to_cart\x0c994147H15cb7038-8bc0-4697-8d9c-cddaf0991f28\x08Card'
+[2025-02-17T15:08:51.275+0000] {subprocess.py:106} INFO - ERROR:root:Sent Avro message to topic consumer_registration_topic: b'\x00\x00\x01\x86\xa242025-02-17T15:08:50.285299*consumer_registration\x0c138624\x84\x01(user138624@yahoo.com\x06geo'
+[2025-02-17T15:08:52.407+0000] {subprocess.py:106} INFO - ERROR:root:Sent Avro message to topic sign_in_topic: b'\x00\x00\x01\x86\xa342025-02-17T15:08:51.275738\x0esign_in\x0c900909'
+[2025-02-17T15:08:52.407+0000] {subprocess.py:106} INFO - Traceback (most recent call last):
+[2025-02-17T15:08:52.408+0000] {subprocess.py:106} INFO -   File "/usr/local/app/kafka/UserActivitySimulator.py", line 85, in <module>
+[2025-02-17T15:08:52.409+0000] {subprocess.py:106} INFO -     simulator.start_simulation()
+[2025-02-17T15:08:52.409+0000] {subprocess.py:106} INFO -   File "/usr/local/app/kafka/UserActivitySimulator.py", line 71, in start_simulation
+[2025-02-17T15:08:52.411+0000] {subprocess.py:106} INFO -     self.generate_event()
+[2025-02-17T15:08:52.411+0000] {subprocess.py:106} INFO -   File "/usr/local/app/kafka/UserActivitySimulator.py", line 42, in generate_event
+[2025-02-17T15:08:52.413+0000] {subprocess.py:106} INFO -     event = event_class() if callable(event_class) else event_class
+[2025-02-17T15:08:52.414+0000] {subprocess.py:106} INFO -             ^^^^^^^^^^^^^
+[2025-02-17T15:08:52.415+0000] {subprocess.py:106} INFO -   File "/usr/local/app/kafka/UserActivitySimulator.py", line 36, in <lambda>
+[2025-02-17T15:08:52.416+0000] {subprocess.py:106} INFO -     lambda: ItemViewEvent(self.movies),
+[2025-02-17T15:08:52.417+0000] {subprocess.py:106} INFO -                           ^^^^^^^^^^^
+[2025-02-17T15:08:52.418+0000] {subprocess.py:106} INFO - AttributeError: 'UserActivitySimulator' object has no attribute 'movies'
+[2025-02-17T15:08:52.467+0000] {subprocess.py:106} INFO - %4|1739804932.467|TERMINATE|ccloud-python-client-d5d51593-8a8e-4679-b89e-7349479019ff#producer-1| [thrd:app]: Producer terminating with 1 message (88 bytes) still in queue or transit: use flush() to wait for outstanding message delivery
+[2025-02-17T15:08:52.931+0000] {subprocess.py:110} INFO - Command exited with return code 1
+[2025-02-17T15:08:52.954+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-02-17T15:08:52.963+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-02-17T15:08:52.980+0000] {taskinstance.py:3895} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-02-17T15:08:52.982+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
