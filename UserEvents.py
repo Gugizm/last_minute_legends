@@ -31,22 +31,29 @@ class MovieCatalogEvent(Event):
 
     def __init__(self, movie_id, title, genre, list_price):
         super().__init__("movie_catalog_enriched")
-        self.movie_id = movie_id
+        self.movie_id = str(movie_id)
         self.title = title if title else "Unknown"
         self.genre = genre if genre else "Unknown"
         self.list_price = float(list_price) if list_price else 0.0
 
     @staticmethod
-    def to_dict(self):
+    def to_dict(obj, ctx: SerializationContext = None):
         """Returns event data as a dictionary"""
         return {
-            "timestamp": self.timestamp,
-            "event_name": self.event_name,
-            "movie_id": self.movie_id,
-            "title": self.title,
-            "genre": self.genre,
-            "list_price": self.list_price
+            "timestamp": obj.timestamp,
+            "event_name": obj.event_name,
+            "movie_id": obj.movie_id,
+            "title": obj.title,
+            "genre": obj.genre,
+            "list_price": obj.list_price
         }
+
+    def __call__(self, ctx: SerializationContext = None):
+        """Make the instance callable to return its dictionary representation"""
+        return self.to_dict(self, ctx)
+
+
+
 
 
 class UserRegistrationEvent(Event):

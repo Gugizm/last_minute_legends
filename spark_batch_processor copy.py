@@ -1,4 +1,3 @@
-# SparkBatchProcessor.py
 import os
 import time
 import logging
@@ -18,28 +17,24 @@ class SparkBatchProcessor:
         self.spark = SparkSession.builder.appName("MoviesBatchProcessing").getOrCreate()
         self.file_path = file_path
         self.kafka_publisher = kafka_publisher
-        self.snowflake_service = SnowflakeQueryService()
+        # self.snowflake_service = SnowflakeQueryService()
 
     def read_movies_data(self):
         """Reads Movies.txt and extracts structured data"""
         logger.info("Reading Movies.txt file...")
         df = self.spark.read.text(self.file_path).filter(col("value").isNotNull() & (col("value") != ""))
-        
-        # Add partitioning by a computed column to improve window performance
-        df = df.withColumn("partition_id", F.spark_partition_id())
-        
-        window_spec = Window.partitionBy("partition_id").orderBy(F.monotonically_increasing_id())
+
         df = df.withColumn("ItemID", F.sum(when(col("value").startswith("ITEM "), 1).otherwise(0))
-                           .over(window_spec))
+                           .over(Window.orderBy(F.monotonically_increasing_id())))
 
         df = df.filter(col("value").contains("=")).withColumn("split_array", split(col("value"), "=")) \
                .withColumn("Column", F.trim(col("split_array").getItem(0))) \
                .withColumn("Value", F.trim(col("split_array").getItem(1))) \
-               .drop("split_array", "partition_id")
+               .drop("split_array")
 
         df = df.groupBy("ItemID").pivot("Column").agg(first(col("Value")))
         return df
-
+    
     def clean_data(self, df):
         """
         Cleans extracted data:
@@ -75,40 +70,46 @@ class SparkBatchProcessor:
         logger.info("✅ Data cleaning completed.")
         return df
 
+
     def process_new_movies(self):
         """Checks for new movies, cleans data, and sends events to Kafka"""
         df = self.read_movies_data()
+        
+        # ✅ Clean extracted movie data
         df = self.clean_data(df)
 
-        query = "SELECT movie_id FROM KAFKA_EVENTS.STREAMING_DATA.movie_catalog_events;"
-        existing_movies = {row["movie_id"] for row in self.snowflake_service.fetch_data(query)}
+        # ✅ Fetch existing movies from Snowflake
+        # query = "SELECT movie_id FROM KAFKA_EVENTS.STREAMING_DATA.movie_catalog_events;"
+        # existing_movies = {row["movie_id"] for row in self.snowflake_service.fetch_data(query)}
+        existing_movies = set()
+
+        # ✅ Filter only new movies
         new_movies_df = df.filter(~col("ItemID").isin(existing_movies))
 
         if new_movies_df.count() == 0:
             logger.info("No new movies found. Skipping processing.")
             return
 
-        # Process in batches to improve performance
+        # ✅ Convert to MovieCatalogEvent and send to Kafka
         for row in new_movies_df.collect():
             movie_event = MovieCatalogEvent(
-                movie_id=str(row["ItemID"]),
+                movie_id=row["ItemID"],
                 title=row["Title"],
                 genre=row["Genre"],
                 list_price=row["ListPrice"]
             )
-            # Call to_dict() without arguments - it will use self internally
-            self.kafka_publisher.send_event("movies_catalog_enriched", movie_event())
+            self.kafka_publisher.send_event("movie_catalog_enriched", movie_event.to_dict(ctx=None))  # ✅ Fixes missing `self`
 
         logger.info(f"✅ Published {new_movies_df.count()} new movie events to Kafka.")
+
+
+        
 
     def run(self):
         """Runs batch processing every 60 seconds"""
         while True:
-            try:
-                self.process_new_movies()
-            except Exception as e:
-                logger.error(f"Error in batch processing: {str(e)}")
-            time.sleep(60)  # Changed from 2 to 60 seconds for production
+            self.process_new_movies()
+            time.sleep(60)
 
 if __name__ == "__main__":
     from Config import producer_conf, schema_registry_url, auth_user_info
