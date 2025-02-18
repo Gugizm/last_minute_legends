@@ -112,6 +112,7 @@ class SparkBatchProcessor:
 
 if __name__ == "__main__":
     from Config import producer_conf, schema_registry_url, auth_user_info
+    
     kafka_publisher = KafkaEventPublisher(producer_conf, schema_registry_url, auth_user_info)
     processor = SparkBatchProcessor("/app/data/raw/Movies.txt", kafka_publisher)
     processor.run()

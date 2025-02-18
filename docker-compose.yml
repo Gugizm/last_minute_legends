@@ -1,4 +1,19 @@
 services:
+  spark-streaming:
+    build: .
+    container_name: spark-streaming
+    volumes:
+      - .:/app
+    depends_on:
+      - spark-master
+      - kafka
+    env_file:
+      - .env
+    networks:
+      - kafka_network
+    command: >
+      spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.4.0 /app/services/spark_streaming_processor.py
+
   spark-batch:
     build: .
     container_name: spark-batch
@@ -13,21 +28,6 @@ services:
       - kafka_network
     command: >
       sh -c "python3 services/spark_batch_processor.py"
-
-  spark-streaming:
-    build: .
-    container_name: spark-streaming
-    volumes:
-      - .:/app
-    depends_on:
-      - spark-master
-      - kafka
-    env_file:
-      - .env
-    networks:
-      - kafka_network
-    command: >
-      sh -c "python3 services/spark_streaming_processor.py"
 
   kafka:
     image: confluentinc/cp-kafka:latest
@@ -46,6 +46,8 @@ services:
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 100
       KAFKA_CONFLUENT_SUPPORT_METRICS_ENABLE: "false"
       KAFKA_LOG_DIRS: /var/lib/kafka/data
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_DELETE_TOPIC_ENABLE: "true"
     networks:
       - kafka_network
 
@@ -67,18 +69,6 @@ services:
     environment:
       - SPARK_MODE=worker
       - SPARK_MASTER_URL=spark://spark-master:7077
-    networks:
-      - kafka_network
-
-  airflow:
-    image: apache/airflow:latest
-    container_name: airflow
-    ports:
-      - "8081:8080"
-    environment:
-      - AIRFLOW__CORE__LOAD_EXAMPLES=False
-    depends_on:
-      - spark-master
     networks:
       - kafka_network
 

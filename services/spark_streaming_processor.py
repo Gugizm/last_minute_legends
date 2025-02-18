@@ -12,11 +12,18 @@ logger = logging.getLogger(__name__)
 class SparkStreamingProcessor:
     def __init__(self, kafka_publisher: KafkaEventPublisher):
         """Initializes Spark Streaming Processor"""
-        self.spark = SparkSession.builder.appName("UserActivityStreaming").getOrCreate()
+        self.spark = SparkSession.builder \
+            .appName("UserActivityStreaming") \
+            .config("spark.jars.packages", 
+                "org.apache.spark:spark-sql-kafka-0-10_2.12:3.4.0,"
+                "net.snowflake:spark-snowflake_2.12:2.9.1,"
+                "net.snowflake:snowflake-jdbc:3.13.14") \
+            .getOrCreate()
+
         self.kafka_publisher = kafka_publisher
         self.snowflake_service = SnowflakeQueryService()
 
-        # ✅ Define the schema for Kafka messages
+   
         self.event_schema = StructType() \
             .add("timestamp", StringType()) \
             .add("event_name", StringType()) \
@@ -28,57 +35,32 @@ class SparkStreamingProcessor:
             .add("genre", StringType(), True) \
             .add("list_price", FloatType(), True)
 
-    def process_event(self, event):
-        """Processes incoming Kafka events"""
-        event_type = event["event_name"]
-        user_id = event["user_id"]
-        item_id = event.get("item_id")
-
-        # ✅ Ensure the user exists in Snowflake
-        if event_type in ["sign_in", "sign_out"]:
-            result = self.snowflake_service.fetch_data(f"SELECT 1 FROM KAFKA_EVENTS.STREAMING_DATA.consumer_events WHERE user_id = '{user_id}'")
-            if not result:
-                logger.warning(f"❌ Unregistered user {user_id} attempted {event_type}!")
-                return
-
-            logger.info(f"✅ User {user_id} {event_type} event processed.")
-
-        # ✅ Ensure the movie exists in Snowflake before processing item-related events
-        elif event_type in ["item_view", "added_to_cart", "checkout_to_cart"]:
-            result = self.snowflake_service.fetch_data(f"SELECT 1 FROM KAFKA_EVENTS.STREAMING_DATA.movie_catalog_events WHERE movie_id = '{item_id}'")
-            if not result:
-                logger.warning(f"❌ Invalid Movie {item_id} in event {event_type}")
-                return
-
-            logger.info(f"✅ Movie {item_id} exists, processing {event_type} event.")
-
-        # ✅ Send processed event to Kafka
-        self.kafka_publisher.send_event("processed_events_topic", event)
-
-        # ✅ Save the event into Snowflake
-        insert_query = f"""
-        INSERT INTO KAFKA_EVENTS.STREAMING_DATA.{event_type}_events 
-        (timestamp, event_name, user_id, item_id, cart_id, payment_method, title, genre, list_price)
-        VALUES 
-        ('{event['timestamp']}', '{event['event_name']}', '{event['user_id']}', 
-        '{event.get('item_id', 'NULL')}', '{event.get('cart_id', 'NULL')}', '{event.get('payment_method', 'NULL')}',
-        '{event.get('title', 'NULL')}', '{event.get('genre', 'NULL')}', {event.get('list_price', 0.0)});
-        """
-        self.snowflake_service.execute_query(insert_query)
-        logger.info(f"✅ Saved {event_type} event into Snowflake.")
-
     def run(self):
-        """Starts Spark Streaming"""
-        df = self.spark.readStream.format("kafka") \
-            .option("kafka.bootstrap.servers", "kafka:9092") \
-            .option("subscribe", "user_activity_topic") \
-            .load()
+        """Starts Spark Streaming - Keeps Running"""
+        logger.info("Starting Spark Streaming Processor...")
 
-        # ✅ Parse Kafka messages as JSON
-        parsed_df = df.selectExpr("CAST(value AS STRING)").alias("event")
-        parsed_df = parsed_df.withColumn("event", from_json(col("event"), self.event_schema))
+        while True:
+            try:
+                df = self.spark.readStream.format("kafka") \
+                    .option("kafka.bootstrap.servers", "kafka:9092") \
+                    .option("subscribe", "user_activity_topic") \
+                    .load()
 
-        # ✅ Process each event
-        parsed_df.foreach(lambda row: self.process_event(row["event"]))
+                # ✅ Use the correct column name
+                parsed_df = df.selectExpr("CAST(value AS STRING) as value")
+                parsed_df = parsed_df.withColumn("event", from_json(col("value"), self.event_schema))
 
-        self.spark.streams.awaitAnyTermination()
+                logger.info("✅ Listening for new events...")
+
+                self.spark.streams.awaitAnyTermination()  # Keeps running
+            
+            except Exception as e:
+                logger.error(f"❌ Streaming Error: {e}", exc_info=True)
+                logger.info("🔄 Restarting Spark Streaming...")
+
+if __name__ == "__main__":
+    from Config import producer_conf, schema_registry_url, auth_user_info
+
+    kafka_publisher = KafkaEventPublisher(producer_conf, schema_registry_url, auth_user_info)
+    spark_processor = SparkStreamingProcessor(kafka_publisher)
+    spark_processor.run()
