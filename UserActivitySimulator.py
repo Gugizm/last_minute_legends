@@ -1,3 +1,5 @@
+import os
+from pyspark.sql.types import StructType, StructField, StringType
 import time
 import random
 import logging
@@ -28,14 +30,45 @@ class UserActivitySimulator:
         self.user_manager = UserManager()  # Ensure user uniqueness
         self.movies = self.load_movies()  # Fetch movies dynamically
 
+
     def load_movies(self):
-        """Fetch movies from Spark DataFrame"""
+        """Fetch movies from the processed Parquet file with error handling"""
         try:
-            df = self.spark.read.text("movies.txt")
-            return df.select("movie_id").rdd.flatMap(lambda x: x).collect()
+            parquet_path = "/app/data/processed/movies.parquet"
+
+            # ✅ Check if the file exists
+            if not os.path.exists(parquet_path):
+                logging.error(f"❌ Parquet file {parquet_path} not found.")
+                return ["default-movie"]
+
+            # ✅ Debugging: Print file list in the directory
+            logging.info(f"📂 Files in {parquet_path}: {os.listdir(parquet_path)}")
+
+            # ✅ Define schema manually if Spark cannot infer
+            movie_schema = StructType([
+                StructField("ItemID", StringType(), True),
+            ])
+
+            # ✅ Load the Parquet file safely
+            df = self.spark.read.schema(movie_schema).parquet(parquet_path)
+
+            # ✅ Ensure the file contains data
+            if df.count() == 0:
+                logging.error("❌ Processed Parquet file is empty. Check data processing!")
+                return ["default-movie"]
+
+            if "ItemID" not in df.columns:
+                logging.error("❌ 'ItemID' column missing. Check transformation logic.")
+                return ["default-movie"]
+
+            movie_ids = df.select("ItemID").rdd.flatMap(lambda x: x).collect()
+            logging.info(f"✅ Loaded {len(movie_ids)} movies from processed data.")
+            return movie_ids
+
         except Exception as e:
             logging.error(f"❌ Error loading movies: {e}")
-            return ["default-movie"]  # Fallback if loading fails
+            return ["default-movie"]  # Fallback value
+
 
     def generate_event(self):
         """Randomly selects and sends an event"""
@@ -43,8 +76,8 @@ class UserActivitySimulator:
             UserRegistrationEvent,
             SignInEvent,
             SignOutEvent,
-            lambda: ItemViewEvent(self.movies),
-            lambda: AddToCartEvent(self.movies),
+            lambda: ItemViewEvent(random.choice(self.movies) if self.movies else "default-movie"),
+            lambda: AddToCartEvent(random.choice(self.movies) if self.movies else "default-movie"),
             lambda: CheckoutEvent(self.cart_ids)
         ]
 
@@ -54,6 +87,7 @@ class UserActivitySimulator:
         # Store cart IDs for checkout use
         if isinstance(event, AddToCartEvent):
             self.cart_ids.append(event.cart_id)
+            self.cart_ids = list(set(self.cart_ids))  # Ensure unique cart IDs
 
         # Send event to Kafka
         topic_mapping = {

@@ -7,7 +7,7 @@ from confluent_kafka.serialization import SerializationContext
 
 user_manager = UserManager()  # Shared instance across all events
 
-class UserEvent(ABC):
+class Event(ABC):
     """Base class for all user events"""
 
     def __init__(self, event_name, user_id=None):
@@ -24,9 +24,32 @@ class UserEvent(ABC):
     def __call__(self, ctx: SerializationContext = None):
         """Make the instance callable to return its dictionary representation"""
         return self.to_dict(self, ctx)
+    
+
+class MovieCatalogEvent(Event):
+    """Handles movie catalog enrichment events"""
+
+    def __init__(self, movie_id, title, genre, list_price):
+        super().__init__("movie_catalog_enriched")
+        self.movie_id = movie_id
+        self.title = title if title else "Unknown"
+        self.genre = genre if genre else "Unknown"
+        self.list_price = float(list_price) if list_price else 0.0
+
+    @staticmethod
+    def to_dict(self):
+        """Returns event data as a dictionary"""
+        return {
+            "timestamp": self.timestamp,
+            "event_name": self.event_name,
+            "movie_id": self.movie_id,
+            "title": self.title,
+            "genre": self.genre,
+            "list_price": self.list_price
+        }
 
 
-class UserRegistrationEvent(UserEvent):
+class UserRegistrationEvent(Event):
     """Handles user registration event"""
 
     def __init__(self):
@@ -47,7 +70,7 @@ class UserRegistrationEvent(UserEvent):
         }
 
 
-class SignInEvent(UserEvent):
+class SignInEvent(Event):
     """Handles user sign-in event"""
 
     def __init__(self):
@@ -62,7 +85,7 @@ class SignInEvent(UserEvent):
         }
 
 
-class SignOutEvent(UserEvent):
+class SignOutEvent(Event):
     """Handles user sign-out event"""
 
     def __init__(self):
@@ -77,7 +100,7 @@ class SignOutEvent(UserEvent):
         }
 
 
-class ItemViewEvent(UserEvent):
+class ItemViewEvent(Event):
     """Handles item view event"""
 
     def __init__(self, movies):
@@ -94,7 +117,7 @@ class ItemViewEvent(UserEvent):
         }
 
 
-class AddToCartEvent(UserEvent):
+class AddToCartEvent(Event):
     """Handles add to cart event"""
 
     def __init__(self, movies):
@@ -113,7 +136,7 @@ class AddToCartEvent(UserEvent):
         }
 
 
-class CheckoutEvent(UserEvent):
+class CheckoutEvent(Event):
     """Handles checkout event"""
 
     def __init__(self, cart_ids):
