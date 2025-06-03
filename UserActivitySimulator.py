@@ -36,37 +36,37 @@ class UserActivitySimulator:
         try:
             parquet_path = "/app/data/processed/movies.parquet"
 
-            # ✅ Check if the file exists
+           
             if not os.path.exists(parquet_path):
                 logging.error(f"❌ Parquet file {parquet_path} not found.")
                 return ["default-movie"]
 
-            # ✅ Debugging: Print file list in the directory
-            logging.info(f"📂 Files in {parquet_path}: {os.listdir(parquet_path)}")
+            
+            logging.info(f"Files in {parquet_path}: {os.listdir(parquet_path)}")
 
-            # ✅ Define schema manually if Spark cannot infer
+          
             movie_schema = StructType([
                 StructField("ItemID", StringType(), True),
             ])
 
-            # ✅ Load the Parquet file safely
+
             df = self.spark.read.schema(movie_schema).parquet(parquet_path)
 
-            # ✅ Ensure the file contains data
+         
             if df.count() == 0:
-                logging.error("❌ Processed Parquet file is empty. Check data processing!")
+                logging.error("Processed Parquet file is empty. Check data processing!")
                 return ["default-movie"]
 
             if "ItemID" not in df.columns:
-                logging.error("❌ 'ItemID' column missing. Check transformation logic.")
+                logging.error("'ItemID' column missing. Check transformation logic.")
                 return ["default-movie"]
 
             movie_ids = df.select("ItemID").rdd.flatMap(lambda x: x).collect()
-            logging.info(f"✅ Loaded {len(movie_ids)} movies from processed data.")
+            logging.info(f"Loaded {len(movie_ids)} movies from processed data.")
             return movie_ids
 
         except Exception as e:
-            logging.error(f"❌ Error loading movies: {e}")
+            logging.error(f"Error loading movies: {e}")
             return ["default-movie"]  # Fallback value
 
 
@@ -106,7 +106,7 @@ class UserActivitySimulator:
         serialized_value = avro_manager.avro_serializer(event, SerializationContext(topic, MessageField.VALUE))
 
         self.kafka_producer.produce_message(topic=topic, message_key=key, message_value=serialized_value)
-        logging.info(f"✅ Sent event to {topic}: {event}")
+        logging.info(f"Sent event to {topic}: {event}")
 
     def start_simulation(self, delay=2):
         """Continuously generate user activity events"""
@@ -115,7 +115,7 @@ class UserActivitySimulator:
                 self.generate_event()
                 time.sleep(delay)
         except KeyboardInterrupt:
-            logging.info("🛑 Simulation stopped by user.")
+            logging.info("Simulation stopped by user.")
 
 if __name__ == "__main__":
     from Config import producer_conf, schema_registry_url, auth_user_info
