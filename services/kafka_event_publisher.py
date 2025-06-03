@@ -13,7 +13,7 @@ class KafkaEventPublisher:
         """Initializes Kafka Producer with Avro Schema Registry"""
         self.producer = Producer(kafka_config)
 
-        # ✅ Schema Registry Setup
+        
         self.schema_registry_client = SchemaRegistryClient({
             "url": schema_registry_url,
             "basic.auth.user.info": auth_user_info
@@ -26,11 +26,11 @@ class KafkaEventPublisher:
         if topic in self.serializers:
             return self.serializers[topic]
 
-        # ✅ Fetch schema from Confluent Schema Registry
+   
         subject = f"{topic}-value"
         schema = self.schema_registry_client.get_latest_version(subject).schema.schema_str
 
-        # ✅ Create Avro Serializer
+   
         avro_serializer = AvroSerializer(
             self.schema_registry_client,
             schema,
@@ -52,4 +52,4 @@ class KafkaEventPublisher:
             value=avro_serializer(event_data, SerializationContext(topic, MessageField.VALUE))
         )
         self.producer.flush()
-        logger.info(f"✅ Sent Avro event to {topic}: {event_data}")
+        logger.info(f"Sent Avro event to {topic}: {event_data}")
